@@ -1,32 +1,76 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudtype - Flask</title>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.3/dist/full.css" rel="stylesheet" type="text/css" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
-  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <title> 상품 추천 pip install pandas
+    </title>
+    <style>
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .photo-grid-item {
+            margin: 10px;
+        }
+
+        .submit-button {
+            margin-top: 10px;
+            transform: scale(2); /* 크기를 3배로 조정 */
+        }
+
+        .checkbox-label {
+            transform: scale(4); /* 크기를 4배로 조정 */
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .form-wrapper {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var pageLoadTimeInput = document.getElementById('page_load_time');
+            var submissionTimeInput = document.getElementById('submission_time');
+            pageLoadTimeInput.value = new Date().toISOString();
+    
+            // 제출 버튼 클릭 시 현재 시각을 submission_time input에 설정
+            document.querySelector('form').addEventListener('submit', function() {
+                submissionTimeInput.value = new Date().toISOString();
+            });
+        }
+    </script>
+    
+    
 </head>
 <body>
-<div class="hero min-h-screen bg-base-200">
-  <div class="hero-content flex-col lg:flex-row-reverse">
-    <img src="{{ url_for('static', filename='img/flask.webp') }}" class="w-36 rounded-lg md:ml-5 lg:ml-5"  alt="flask"/>
-    <div>
-      <h1 class="text-5xl font-bold">Flask</h1>
-      <p class="py-6">클라우드타입에서 배포한 Flask 어플리케이션입니다.</p>
-      <button type="button" onclick="window.open('https://github.com/cloudtype-examples/flask')" class="btn btn-outline rounded">
-        GitHub
-      </button>
-      <button type="button" onclick="window.open('https://docs.cloudtype.io/')" class="btn btn-outline rounded">
-        Docs
-      </button>
-      <button type="button" onclick="window.open('https://discord.gg/U7HX4BA6hu')" class="btn btn-outline rounded">
-        Discord
-      </button>
-    </div>
-  </div>
-</div>
+    <h1>상품 추천 </h1>
+    <form method="POST" action="/">
+
+        <input type="hidden" name="page_load_time" id="page_load_time" value="">
+
+
+        <div class="photo-grid">
+            {% for image_name in image_names %}
+                <div class="photo-grid-item">
+                    <img src="{{ url_for('static', filename='images/' + image_name) }}" width="300" height="300">
+                    <br>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="image_checkbox" value="{{ image_name }}">
+                    </label>
+                </div>
+                {% if loop.index % 10 == 0 %}
+                    <div style="clear: both;"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="form-wrapper">
+            <input type="submit" value="제출" class="submit-button">
+            <input type="hidden" name="submission_time" id="submission_time" value="">
+
+        </div>
+    </form>
 </body>
 </html>
